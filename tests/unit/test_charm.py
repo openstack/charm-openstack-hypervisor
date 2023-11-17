@@ -114,10 +114,14 @@ class TestCharm(test_utils.CharmTestCase):
             "latest", channel="essex/stable"
         )
         metadata = self.harness.charm.metadata_secret()
-        ovn_cacert = (
+        cacert = test_utils.TEST_CA
+        cacert_with_intermediates = (
             test_utils.TEST_CA + "\n" + "\n".join(test_utils.TEST_CHAIN)
         )
-        ovn_cacert = base64.b64encode(ovn_cacert.encode()).decode()
+        cacert = base64.b64encode(cacert.encode()).decode()
+        cacert_with_intermediates = base64.b64encode(
+            cacert_with_intermediates.encode()
+        ).decode()
         private_key = base64.b64encode(
             self.harness.charm.contexts().certificates.key.encode()
         ).decode()
@@ -128,6 +132,10 @@ class TestCharm(test_utils.CharmTestCase):
             "compute.cpu-mode": "host-model",
             "compute.spice-proxy-address": "10.0.0.10",
             "compute.virt-type": "kvm",
+            "compute.cacert": cacert,
+            "compute.cert": certificate,
+            "compute.key": private_key,
+            "compute.migration-address": "10.0.0.10",
             "compute.rbd-user": "nova",
             "compute.rbd-secret-uuid": "ddd",
             "compute.rbd-key": "eee",
@@ -150,7 +158,7 @@ class TestCharm(test_utils.CharmTestCase):
             "network.external-bridge": "br-ex",
             "network.external-bridge-address": "10.20.20.1/24",
             "network.ip-address": "10.0.0.10",
-            "network.ovn-cacert": ovn_cacert,
+            "network.ovn-cacert": cacert_with_intermediates,
             "network.ovn-cert": certificate,
             "network.ovn-key": private_key,
             "network.ovn-sb-connection": "ssl:10.20.21.10:6642",
@@ -199,10 +207,14 @@ class TestCharm(test_utils.CharmTestCase):
             "latest", channel="essex/stable"
         )
         metadata = self.harness.charm.metadata_secret()
-        ovn_cacert = (
+        cacert = test_utils.TEST_CA
+        cacert_with_intermediates = (
             test_utils.TEST_CA + "\n" + "\n".join(test_utils.TEST_CHAIN)
         )
-        ovn_cacert = base64.b64encode(ovn_cacert.encode()).decode()
+        cacert = base64.b64encode(cacert.encode()).decode()
+        cacert_with_intermediates = base64.b64encode(
+            cacert_with_intermediates.encode()
+        ).decode()
         private_key = base64.b64encode(
             self.harness.charm.contexts().certificates.key.encode()
         ).decode()
@@ -213,6 +225,10 @@ class TestCharm(test_utils.CharmTestCase):
             "compute.cpu-mode": "host-model",
             "compute.spice-proxy-address": "10.0.0.10",
             "compute.virt-type": "kvm",
+            "compute.cacert": cacert,
+            "compute.cert": certificate,
+            "compute.key": private_key,
+            "compute.migration-address": "10.0.0.10",
             "compute.rbd-user": "nova",
             "compute.rbd-secret-uuid": "ddd",
             "compute.rbd-key": "eee",
@@ -235,7 +251,7 @@ class TestCharm(test_utils.CharmTestCase):
             "network.external-bridge": "br-ex",
             "network.external-bridge-address": "10.20.20.1/24",
             "network.ip-address": "10.0.0.10",
-            "network.ovn-cacert": ovn_cacert,
+            "network.ovn-cacert": cacert_with_intermediates,
             "network.ovn-cert": certificate,
             "network.ovn-key": private_key,
             "network.ovn-sb-connection": "ssl:10.20.21.10:6642",
